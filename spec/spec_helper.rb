@@ -1,0 +1,2 @@
+require 'iambic'
+require 'rspec'

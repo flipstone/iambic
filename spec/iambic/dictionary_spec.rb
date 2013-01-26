@@ -1,4 +1,4 @@
-require 'iambic'
+require 'spec_helper'
 
 module Iambic
   describe Dictionary do
