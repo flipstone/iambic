@@ -1,10 +1,11 @@
 require 'iambic/version'
-require 'hamster'
 
 module Iambic
   autoload :Dictionary, 'iambic/dictionary'
-  autoload :LexicalStress, 'iambic/lexical_stress'
+  autoload :LexicalItem, 'iambic/lexical_item'
+  autoload :Lexicon, 'iambic/lexicon'
   autoload :Line, 'iambic/line'
+  autoload :Pronounciation, 'iambic/pronounciation'
   autoload :Stress, 'iambic/stress'
   autoload :StressPattern, 'iambic/stress_pattern'
   autoload :Word, 'iambic/word'

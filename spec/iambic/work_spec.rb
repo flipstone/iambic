@@ -20,6 +20,17 @@ module Iambic
       end
     end
 
+    describe "map" do
+      it "allows youto map the words (not lines!)" do
+        work = Work.new [Line.new(Word[*%W[1 2]]),
+                         Line.new(Word[*%W[3 4]])]
+
+        expected = Work.new [Line.new([1,2]), Line.new([3,4])]
+
+        work.map { |w| w.string.to_i }.should == expected
+      end
+    end
+
     describe "==" do
       it { Work.new([1]).should == Work.new([1]) }
       it { Work.new([1]).should_not == Work.new([2]) }

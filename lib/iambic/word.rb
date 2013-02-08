@@ -22,5 +22,9 @@ module Iambic
     def to_s
       "Word(#{string.inspect})"
     end
+
+    def dictionary_key
+      string
+    end
   end
 end

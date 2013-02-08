@@ -20,6 +20,13 @@ module Iambic
       end
     end
 
+    describe "map" do
+      it "returns a new Line with mapped words" do
+        l = Line.new(Word[*%w(1 2 3)])
+        l.map { |w| w.string.to_i }.should == Line.new([1,2,3])
+      end
+    end
+
     describe "==" do
       it { Line.new([1]).should == Line.new([1]) }
       it { Line.new([1]).should_not == Line.new([2]) }

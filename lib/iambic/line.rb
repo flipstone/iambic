@@ -10,6 +10,10 @@ module Iambic
       lines.each_line.map { |l| new Word.parse_words l }
     end
 
+    def map
+      Line.new words.map { |w| yield w }
+    end
+
     def ==(other)
       self.class == other.class &&
       words == other.words

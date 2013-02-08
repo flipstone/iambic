@@ -28,6 +28,10 @@ module Iambic
       self
     end
 
+    def to_s
+      "<StressPattern #{@stresses.join(',')}>"
+    end
+
     def ==(other)
       self.class == other.class &&
       stresses == other.stresses

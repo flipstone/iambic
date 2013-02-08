@@ -10,6 +10,16 @@ module Iambic
       new Line.parse_lines source
     end
 
+    def map
+      Work.new(
+        lines.map do |line|
+          line.map do |w|
+            yield w
+          end
+        end
+      )
+    end
+
     def ==(other)
       self.class == other.class &&
       lines == other.lines
