@@ -16,6 +16,12 @@ module Iambic
       sp 'AE1 B D AH0 K EY2 T', StressPattern.new([H,L,L])
     end
 
+    describe "to_s" do
+      it "shows the source" do
+        Pronounciation.new("T UW1").to_s.should == "T UW1"
+      end
+    end
+
     describe "==" do
       it { Pronounciation.new('T UW1').should == Pronounciation.new("T UW1") }
       it { Pronounciation.new('T AW1').should_not == Pronounciation.new("T UW1") }

@@ -15,6 +15,10 @@ module Iambic
       string == other.string
     end
 
+    def to_s
+      @string
+    end
+
     private
 
     def stresses

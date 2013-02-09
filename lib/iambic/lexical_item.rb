@@ -7,6 +7,14 @@ module Iambic
       @pronounciation = pronounciation
     end
 
+    def to_stress_pattern
+      pronounciation.to_stress_pattern
+    end
+
+    def to_s
+      "#{word.string} (#{pronounciation})"
+    end
+
     def ==(other)
       self.class == other.class &&
       word == other.word &&

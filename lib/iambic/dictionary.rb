@@ -5,10 +5,51 @@ module Iambic
     end
 
     def [](word)
-      regex = /^#{Regexp.quote(word)} ( \(\d+\) )? \s/x
+      key = Regexp.quote(word.sub(/'S$/, 'S')).sub(/S$/,"'?S")
+      regex = /^#{key} ( \(\d+\) )? \s/x
 
-      @lines.grep(regex).map do |line|
+      search_range(word).grep(regex).map do |line|
         line.split(/\s+/,2).last.strip
+      end
+    end
+
+    private
+
+    def search_range(word)
+      range = index[word[0..1]] || {}
+      Subrange.new @lines, range[:start], range[:end]
+    end
+
+
+    def index
+      @index ||= begin
+        idx = {}
+
+        @lines.each_with_index do |line, i|
+          key = line[0..1]
+          idx[key] ||= { start: i }
+          idx[key][:end] = i
+        end
+
+        idx
+      end
+    end
+
+    class Subrange
+      include Enumerable
+
+      def initialize(source, r_start, r_end)
+        @source = source
+        @r_start = r_start
+        @r_end = r_end
+      end
+
+      def each
+        return unless @r_start
+
+        @r_start.upto @r_end do |i|
+          yield @source[i]
+        end
       end
     end
 

@@ -39,6 +39,22 @@ TOWARD  T AH0 W AO1 R D
         d["TOW"].should == ["T OW1"]
       end
 
+      it "will accept a plural when word is possessive" do
+        d = Dictionary.new <<-end_src
+OPPRESSORS  AH0 P R EH1 S ER0 Z
+        end_src
+
+        d["OPPRESSOR'S"].should == ["AH0 P R EH1 S ER0 Z"]
+      end
+
+      it "will accept a possessive when word is plural" do
+        d = Dictionary.new <<-end_src
+OPPRESSOR'S  AH0 P R EH1 S ER0 Z
+        end_src
+
+        d["OPPRESSORS"].should == ["AH0 P R EH1 S ER0 Z"]
+      end
+
       it "ignores commented lines" do
         d = Dictionary.new <<-end_src
 #TIVOLI  T IH1 V AH0 L IY0
@@ -46,6 +62,29 @@ TOWARD  T AH0 W AO1 R D
 
         d['TIVOLI'].should == []
       end
+    end
+
+    describe "fuzz test" do
+      it("works") { 100.times { fuzz } }
+
+      def fuzz
+        words = 10.times.map { rand_word }.sort
+        dictionary = words.map { |w| "#{w} #{w}" }.join("\n")
+
+        words.each do |word|
+          dictionary[word].should == word
+        end
+      end
+
+      def rand_word
+        rand(1..10).times.map { rand_letter }.join('')
+      end
+
+      def rand_letter
+        letters.shuffle.first
+      end
+
+      let(:letters) { ('A'..'Z').to_a }
     end
   end
 end
