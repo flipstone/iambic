@@ -16,7 +16,7 @@ module Iambic
     private
 
     def search_range(word)
-      range = index[word[0..1]] || {}
+      range = index[word[0]] || {}
       Subrange.new @lines, range[:start], range[:end]
     end
 
@@ -26,7 +26,7 @@ module Iambic
         idx = {}
 
         @lines.each_with_index do |line, i|
-          key = line[0..1]
+          key = line[0]
           idx[key] ||= { start: i }
           idx[key][:end] = i
         end

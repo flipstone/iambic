@@ -9,11 +9,21 @@ module Iambic
     def find_violator(patterns)
       return nil if patterns.empty?
 
-      if rest = partial_match(patterns.first.to_stress_pattern)
+      if rest = try_partial_matches(patterns.first.stress_patterns)
         rest.find_violator patterns.drop(1)
       else
         patterns.first
       end
+    end
+
+    def try_partial_matches(patterns)
+      patterns.each do |p|
+        if rest = partial_match(p)
+          return rest
+        end
+      end
+
+      nil
     end
 
     def partial_match(pattern)

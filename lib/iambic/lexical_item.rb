@@ -1,24 +1,24 @@
 module Iambic
   class LexicalItem
-    attr_reader :word, :pronounciation
+    attr_reader :word, :pronounciations
 
-    def initialize(word, pronounciation)
+    def initialize(word, pronounciations)
       @word = word
-      @pronounciation = pronounciation
+      @pronounciations = pronounciations
     end
 
-    def to_stress_pattern
-      pronounciation.to_stress_pattern
+    def stress_patterns
+      pronounciations.map &:to_stress_pattern
     end
 
     def to_s
-      "#{word.string} (#{pronounciation})"
+      "#{word.string} (#{pronounciations.join(', ')})"
     end
 
     def ==(other)
       self.class == other.class &&
       word == other.word &&
-      pronounciation == other.pronounciation
+      pronounciations == other.pronounciations
     end
   end
 end

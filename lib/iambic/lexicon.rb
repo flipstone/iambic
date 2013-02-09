@@ -5,15 +5,23 @@ module Iambic
     end
 
     def [](word)
-      @dictionary[word.dictionary_key].map do |pronounciation_spec|
-        LexicalItem.new word,
-                        Pronounciation.new(pronounciation_spec)
+      definitions = @dictionary[word.dictionary_key]
+      pronounciations = definitions.map do |pronounciation_spec|
+        Pronounciation.new pronounciation_spec
       end
+
+      LexicalItem.new word, pronounciations
     end
 
     def lex(phrase)
       phrase.map do |word|
-        self[word].first || Missing.new(word)
+        item = self[word]
+
+        if item.pronounciations.empty?
+          Missing.new word
+        else
+          item
+        end
       end
     end
 

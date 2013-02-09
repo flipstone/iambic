@@ -15,34 +15,77 @@ module Iambic
       end
     end
 
+    describe "try_partial_matches" do
+      it "returns remaining stress pattern on match" do
+        p = StressPattern.new [L,H,H,L]
+        new_p = p.try_partial_matches [StressPattern.new([L,H])]
+        new_p.should == StressPattern.new([H,L])
+      end
+
+      it "tries all patterns" do
+        p = StressPattern.new [L,H,H,L]
+        new_p = p.try_partial_matches [
+          StressPattern.new([H,L]),
+          StressPattern.new([H,H]),
+          StressPattern.new([L,H]),
+        ]
+        new_p.should == StressPattern.new([H,L])
+      end
+
+      it "returns nil if no pattens match" do
+        p = StressPattern.new [L,H,H,L]
+        new_p = p.try_partial_matches [
+          StressPattern.new([H,L]), StressPattern.new([H,H])
+        ]
+        new_p.should be_nil
+      end
+    end
+
     describe "find_violator" do
       IAMBIC_TRIAMETER = StressPattern.new [L,H,L,H,L,H]
       IAMB = StressPattern.new([L,H])
       TROCHEE = StressPattern.new([H,L])
 
       it "is first pattern if it doesn't match" do
-        v = IAMBIC_TRIAMETER.find_violator([TROCHEE, IAMB])
-        v.should == TROCHEE
+        v = IAMBIC_TRIAMETER.find_violator [word(TROCHEE),
+                                            word(IAMB)]
+        v.stress_patterns.should == [TROCHEE]
       end
 
       it "is second pattern if first matches and next does not" do
-        v = IAMBIC_TRIAMETER.find_violator([IAMB, TROCHEE])
-        v.should == TROCHEE
+        v = IAMBIC_TRIAMETER.find_violator [word(IAMB),
+                                            word(TROCHEE)]
+        v.stress_patterns.should == [TROCHEE]
       end
 
       it "is pattern at end if match pattern runs out" do
-        v = IAMBIC_TRIAMETER.find_violator([IAMB, IAMB, IAMB, IAMB])
-        v.should == IAMB
+        v = IAMBIC_TRIAMETER.find_violator [word(IAMB),
+                                            word(IAMB),
+                                            word(IAMB),
+                                            word(IAMB)]
+        v.stress_patterns.should == [IAMB]
+      end
+
+      it "is nil if patten matchers" do
+        v = IAMBIC_TRIAMETER.find_violator [word(IAMB),
+                                            word(IAMB),
+                                            word(IAMB)]
+        v.should be_nil
+      end
+
+      it "tries all of words patterns" do
+        v = IAMBIC_TRIAMETER.find_violator [word(TROCHEE, IAMB),
+                                            word(IAMB),
+                                            word(IAMB)]
+        v.should be_nil
       end
 
       it "is nil not enough patterns" do
         IAMBIC_TRIAMETER.find_violator([]).should be_nil
       end
 
-      it "will convert objects to patterns if necessary" do
-        wrapped_trochee = stub to_stress_pattern: TROCHEE
-        v = IAMBIC_TRIAMETER.find_violator([wrapped_trochee])
-        v.should == wrapped_trochee
+      def word(*patterns)
+        stub stress_patterns: patterns
       end
     end
 

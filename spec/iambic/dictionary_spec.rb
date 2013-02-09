@@ -8,6 +8,15 @@ module Iambic
         d["TIZZY"].should == ["T IH1 Z IY0"]
       end
 
+      it "looks up one character words" do
+        d = Dictionary.new <<-end_src
+A  AH0
+A(1)  EY1
+        end_src
+
+        d['A'].should == ['AH0', 'EY1']
+      end
+
       it "handles multiple words" do
         d = Dictionary.new <<-end_src
 TIVOLI  T IH1 V AH0 L IY0
