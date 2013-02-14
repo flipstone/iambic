@@ -2,6 +2,8 @@ require 'iambic/version'
 
 module Iambic
   autoload :CLI, 'iambic/cli'
+  autoload :Command, 'iambic/command'
+  autoload :Commands, 'iambic/commands'
   autoload :Dictionary, 'iambic/dictionary'
   autoload :LexicalItem, 'iambic/lexical_item'
   autoload :Lexicon, 'iambic/lexicon'

@@ -1,34 +1,19 @@
 module Iambic
-  class CLI
-    attr_reader :args, :stdin, :stdout
-
-    def initialize(args, stdin, stdout)
-      @args = args
-      @stdin = stdin
-      @stdout = stdout
-    end
-
+  class CLI < Command
     def run
-      work = Work.parse stdin
-      violations = Iambic.iambic_pentameter.violations work, lexicon
-
-      puts "Found violations on #{violations.count} lines:"
-      puts
-
-      violations.each do |violation|
-        line = violation.line.words.map(&:word).map(&:string).join(' ')
-        puts "#{violation.word} in \"#{line}\""
-      end
+      command_class(args.first).run args.drop(1), stdin, stdout
     end
 
     private
 
-    def puts(*args)
-      stdout.puts *args
-    end
-
-    def lexicon
-      @lexicon ||= Lexicon.new Dictionary.load_cmu
+    def command_class(name)
+      case name
+      when 'sample'
+        Commands::CatSample
+      else
+        Commands::FindViolations
+      end
     end
   end
 end
+
