@@ -11,6 +11,7 @@ module Iambic
   autoload :Meter, 'iambic/meter'
   autoload :Pronounciation, 'iambic/pronounciation'
   autoload :Sample, 'iambic/sample'
+  autoload :Source, 'iambic/source'
   autoload :Stress, 'iambic/stress'
   autoload :StressPattern, 'iambic/stress_pattern'
   autoload :Word, 'iambic/word'

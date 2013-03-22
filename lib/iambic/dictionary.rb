@@ -5,7 +5,7 @@ module Iambic
     end
 
     def [](word)
-      key = Regexp.quote(word.sub(/'S$/, 'S')).sub(/S$/,"'?S")
+      key = Regexp.quote(word.to_s.sub(/'S$/, 'S')).sub(/S$/,"'?S")
       regex = /^#{key} ( \(\d+\) )? \s/x
 
       search_range(word).grep(regex).map do |line|
@@ -16,7 +16,7 @@ module Iambic
     private
 
     def search_range(word)
-      range = index[word[0]] || {}
+      range = index[word.to_s[0]] || {}
       Subrange.new @lines, range[:start], range[:end]
     end
 

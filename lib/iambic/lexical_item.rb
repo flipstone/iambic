@@ -11,8 +11,12 @@ module Iambic
       pronounciations.map &:to_stress_pattern
     end
 
+    def string
+      word.string
+    end
+
     def to_s
-      "#{word.string} (#{pronounciations.join(', ')})"
+      "#{string} (#{pronounciations.join(', ')})"
     end
 
     def ==(other)
