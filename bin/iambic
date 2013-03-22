@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/iambic'
+
+Iambic::CLI.new(ARGV, STDIN, STDOUT).run
